@@ -1,3 +1,4 @@
 MyHue.properties
 *.class
 .settings/org.eclipse.jdt.core.prefs
+target/Hue-0.0.1-SNAPSHOT.jar
