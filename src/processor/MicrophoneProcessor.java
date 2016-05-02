@@ -18,7 +18,7 @@ import com.philips.lighting.model.PHLight.PHLightEffectMode;
  * @author Adam
  *
  */
-public class MicrophoneProcessor implements Processor {
+public class MicrophoneProcessor implements ProcessorIF {
 	public static boolean threadStarted = false;
 	private static boolean updateLight = true;
 
@@ -123,6 +123,8 @@ public class MicrophoneProcessor implements Processor {
 	@Override
 	public void startProcessing() throws AWTException, InterruptedException {
 
+		MicrophoneProcessor.setConnected(true);
+		MicrophoneProcessor.setPlaying(true);
 		format = new AudioFormat(sampleRate, sampleSizeBits, channels, true, true);
 
 		// Obtain and open the lines.

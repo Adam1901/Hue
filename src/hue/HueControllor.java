@@ -5,10 +5,11 @@ import java.util.List;
 
 import main.HueProperties;
 import main.StartStopFrame;
+import main.StartStopFrame.MODE;
 import processor.AudioProcessor;
 import processor.ImageProcessor;
 import processor.MicrophoneProcessor;
-import processor.Processor;
+import processor.ProcessorIF;
 import processor.ProfileProcessor;
 
 import com.philips.lighting.hue.sdk.PHHueSDK;
@@ -53,8 +54,8 @@ public class HueControllor implements Runnable, HueInterface {
 		connected = true;
 
 		System.out.println("Ready to start");
-		Processor proc;
-		Processor micproc = new MicrophoneProcessor();
+		ProcessorIF proc;
+		ProcessorIF micproc = new MicrophoneProcessor();
 		while (!end) {
 			while (!loop && !end) {
 				Thread.sleep(100);
@@ -64,37 +65,35 @@ public class HueControllor implements Runnable, HueInterface {
 			try {
 				if (!end) {
 					int i = 0;
-					// TODO clean up
 					while (loop && !end) {
 						i++;
 						long start = new Date().getTime();
-						if (StartStopFrame.MODE.VISUAL.equals(StartStopFrame.getActiveMode())) {
-							proc = new ImageProcessor();
-							proc.startProcessing();
-							// need to be set to false for all others apart from
-							// mic
-							MicrophoneProcessor.setConnected(false);
-							MicrophoneProcessor.setPlaying(false);
-						} else if (StartStopFrame.MODE.SYSTEMAUDIO.equals(StartStopFrame.getActiveMode())) {
-							proc = new AudioProcessor();
-							proc.startProcessing();
-							MicrophoneProcessor.setConnected(false);
-							MicrophoneProcessor.setPlaying(false);
-						} else if (StartStopFrame.MODE.MICROPHONE.equals(StartStopFrame.getActiveMode())) {
-							micproc.startProcessing();
-							Thread.sleep(1000);
-						} else if (StartStopFrame.MODE.PROFILE.equals(StartStopFrame.getActiveMode())) {
-							proc = new ProfileProcessor();
-							proc.startProcessing();
-							MicrophoneProcessor.setConnected(false);
-							MicrophoneProcessor.setPlaying(false);
-						} else {
-							Thread.sleep(10000);
-							MicrophoneProcessor.setConnected(false);
-							MicrophoneProcessor.setPlaying(false);
+						switch (StartStopFrame.getActiveMode()) {
+							case VISUAL :
+								proc = new ImageProcessor();
+								proc.startProcessing();
+								break;
+							case SYSTEMAUDIO :
+								proc = new AudioProcessor();
+								proc.startProcessing();
+								break;
+							case MICROPHONE :
+								micproc.startProcessing();
+								Thread.sleep(1000);
+								break;
+							case PROFILE :
+								proc = new ProfileProcessor();
+								proc.startProcessing();
+								break;
+							default :
+								Thread.sleep(10000);
+								break;
 						}
 						long end = new Date().getTime();
 						System.out.println(i + "" + (start - end));
+						// Set the microphone off. 
+						MicrophoneProcessor.setConnected(false);
+						MicrophoneProcessor.setPlaying(false);
 					}
 				}
 			} catch (Exception ex) {

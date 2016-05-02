@@ -9,31 +9,38 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-
 import com.philips.lighting.model.PHLight;
 import com.philips.lighting.model.PHLightState;
 
 import main.StartStopFrame;
 import panels.ProfilePanel;
 
-public class ProfileProcessor implements Processor {
+public class ProfileProcessor implements ProcessorIF {
 
 	@Override
 	public void startProcessing() throws AWTException, InterruptedException {
-		if (ProfilePanel.getActiveProfile().equals(ProfilePanel.PROFILE.XMAS)) {
-			xmas();
-		} else if (ProfilePanel.getActiveProfile().equals(ProfilePanel.PROFILE.SOUNDOFDAPOLICE)) {
-			soundOfDaPolice();
-		} else if (ProfilePanel.getActiveProfile().equals(ProfilePanel.PROFILE.INASUB)) {
-			inASub();
-		} else if (ProfilePanel.getActiveProfile().equals(ProfilePanel.PROFILE.CUSTOMCOLOUR)) {
-			customColours();
-		} else if (ProfilePanel.getActiveProfile().equals(ProfilePanel.PROFILE.FIREPLACE)) {
-			fireplace();
-		} else if (ProfilePanel.getActiveProfile().equals(ProfilePanel.PROFILE.LAVALAMP)) {
-			lavaLamp();
-		} else {
-			Thread.sleep(1000);
+		switch (ProfilePanel.getActiveProfile()) {
+			case XMAS :
+				xmas();
+				break;
+			case SOUNDOFDAPOLICE :
+				soundOfDaPolice();
+				break;
+			case INASUB :
+				inASub();
+				break;
+			case CUSTOMCOLOUR :
+				customColours();
+				break;
+			case FIREPLACE :
+				fireplace();
+				break;
+			case LAVALAMP :
+				lavaLamp();
+				break;
+			default :
+				Thread.sleep(1000);
+				break;
 		}
 		Thread.sleep(10); // Safety
 	}
@@ -46,7 +53,7 @@ public class ProfileProcessor implements Processor {
 		LightControllor.setLightStateColour(lightState, Color.RED, new CustomLight(new PHLight(null, null, null, null)));
 		LightControllor.changeLights(lightState, Color.RED);
 		sleep(transitionTime * 100);
-		
+
 		LightControllor.setLightStateColour(lightState, Color.BLUE, new CustomLight(new PHLight(null, null, null, null)));
 		LightControllor.changeLights(lightState, Color.BLUE);
 		sleep(transitionTime * 100);

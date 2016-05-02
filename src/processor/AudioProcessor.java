@@ -1,6 +1,6 @@
 package processor;
 
-public class AudioProcessor implements Processor {
+public class AudioProcessor implements ProcessorIF {
 
 	/**
 	 * Need to find a way to get audio from PC and parse it to a colour.

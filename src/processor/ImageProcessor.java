@@ -16,7 +16,7 @@ import hue.LightControllor;
 import main.StartStopFrame;
 import panels.VisualPanel;
 
-public class ImageProcessor implements Processor {
+public class ImageProcessor implements ProcessorIF {
 
 	private BufferedImage caputreScreenShot() throws AWTException {
 		if (VisualPanel.useSingleMonitor()) {
