@@ -30,16 +30,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<dependencies>
-		<dependency>
-			<groupId>com.philps.hue</groupId>
-			<artifactId>hueLocal</artifactId>
-			<version>1.8</version>
-		</dependency>
-		<dependency>
-			<groupId>com.philps.hue</groupId>
-			<artifactId>hueRes</artifactId>
-			<version>1.8</version>
-		</dependency>
-	</dependencies>
 </project>
